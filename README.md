@@ -11,7 +11,7 @@ and add `http://localhost:8488` as redirect URL
 ## Installation
 
 ```bash
-$ npm install youtube-video-api --save
+npm install youtube-video-api --save
 ```
 
 ## Usage
