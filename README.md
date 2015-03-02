@@ -1,4 +1,4 @@
-# youtube-video-api [![Build Status](https://travis-ci.org/h2non/youtube-video-api.svg?branch=master)][travis] [![Dependency Status](https://gemnasium.com/h2non/youtube-video-api.png)][gemnasium] [![NPM version](https://badge.fury.io/js/youtube-video-api.png)][npm]
+# youtube-video-api [![Dependency Status](https://gemnasium.com/h2non/youtube-video-api.png)][gemnasium] [![NPM version](https://badge.fury.io/js/youtube-video-api.png)][npm]
 
 Simple node.js/io.js programmatic interface to easily upload and delete videos from YouTube using its API v3
 
