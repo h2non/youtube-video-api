@@ -53,7 +53,7 @@ suite('Youtube videos', function () {
     client.delete(videoId)
       .on('error', done)
       .on('response', function (res) {
-        expect(res.statusCode).to.be.equal(200)
+        expect(res.statusCode).to.be.equal(204)
         done()
       })
   })
