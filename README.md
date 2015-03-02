@@ -1,6 +1,6 @@
 # youtube-video-api [![Dependency Status](https://gemnasium.com/h2non/youtube-video-api.png)][gemnasium] [![NPM version](https://badge.fury.io/js/youtube-video-api.png)][npm]
 
-Simple node.js/io.js programmatic interface to easily upload and delete videos from YouTube using its API v3
+Simple **node.js/io.js programmatic interface to** easily **upload and delete videos** from **YouTube** using its API v3
 
 It uses OAuth2 to authorize the client, so that means you need to authorize the client from a web browser.
 You must create a new Web client APi credencials from the [Google API console](https://code.google.com/apis/console) 
