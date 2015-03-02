@@ -2,11 +2,11 @@
 
 Simple node.js/io.js programmatic interface to easily upload and delete videos from YouTube using its API v3
 
-It uses OAuth2 to authorize the client to upload videos, so that means you need to authorize the client from a web browser.
+It uses OAuth2 to authorize the client, so that means you need to authorize the client from a web browser.
 You must create a new Web client APi credencials from the [Google API console](https://code.google.com/apis/console) 
 and add `http://localhost:8488` as redirect URL
 
-**Note**: this is a rudimentary beta implementation, don't use it for serious stuff yet
+**Note**: this is still a rudimentary beta implementation, don't use it for serious stuff yet
 
 ## Installation
 
