@@ -49,8 +49,7 @@ YoutubeVideo.prototype.upload = function (path, params, callback) {
   var options = merge({}, this.opts, {
     autoLevels: true,
     part: 'status,snippet',
-    mediaType: mime.lookup(path),
-    fields: '*'
+    mediaType: mime.lookup(path)
   }, params)
 
   options.media = { body: video }
