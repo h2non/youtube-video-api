@@ -53,7 +53,6 @@ function uploadVideo() {
     console.log('% uploaded:', percent)
   })
 }
-
 ```
  
 ## API

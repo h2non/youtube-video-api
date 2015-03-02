@@ -23,13 +23,11 @@ suite('Youtube videos', function () {
 
   test('authenticate', function (done) {
     client.on('auth:success', function (tokens) {
-      console.log(tokens)
       done()
     })
 
     client.on('auth:authorize', function (url) {
       console.log('Authorization required. Open:', url)
-      require('open')(url)
     })
 
     client.on('error', done)
@@ -39,7 +37,6 @@ suite('Youtube videos', function () {
 
   test('upload', function (done) {
     client.upload(video, options, function (err, body) {
-      console.log(body)
       videoId = body.id
     })
       .on('error', done)
