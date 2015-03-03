@@ -2,10 +2,12 @@ var expect = require('chai').expect
 var youtube = require('../')
 
 suite('Youtube videos', function () {
-  var CLIENT_ID = process.env.GOOGLE_API_CLIENT_ID
-  var CLIENT_SECRET = process.env.GOOGLE_API_CLIENT_SECRET
+  var CLIENT_ID = process.env.NIGHTMARE_OAUTH2_CLIENT_ID
+  var CLIENT_SECRET = process.env.NIGHTMARE_OAUTH2_CLIENT_SECRET
+  var EMAIL = process.env.NIGHTMARE_OAUTH2_EMAIL
+  var PASSWORD = process.env.NIGHTMARE_OAUTH2_PASSWORD
 
-  var client = youtube()
+  var client = youtube({ email: EMAIL, password: PASSWORD })
   var videoId = null
 
   var video = __dirname + '/fixtures/video.mp4'

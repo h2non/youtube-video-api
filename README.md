@@ -61,6 +61,11 @@ function uploadVideo() {
 
 Youtube Videos API constructor. Returns an evented API based on `EventEmitter` subscribers
 
+Supported options:
+
+- **saveTokens** `boolean` - Save OAuth tokens in disk to avoid browser authorization. Default `true`
+- **video** `object` - Default video options to send to the API. Documentation [here](https://developers.google.com/youtube/v3/docs/videos)
+
 #### youtube#upload(video [, callback ])
 Alias: `insert`
 
@@ -80,9 +85,9 @@ Authorize the client to perform read/write API operations. You **must call this 
 
 Dispached events:
 
-- **error** - `error` - Fired when some error happend
-- **auth:success** - `token` - Fired when the client was authorized successfully
-- **auth:authorize** - `url` - Fired with the URL to provide explicit permissing to the OAuth2 client
+- **error** `error` - Fired when some error happend
+- **auth:success** `token` - Fired when the client was authorized successfully
+- **auth:authorize** `url` - Fired with the URL to provide explicit permissing to the OAuth2 client
 
 ## License
 
@@ -91,4 +96,3 @@ Dispached events:
 [travis]: https://travis-ci.org/h2non/youtube-video-api
 [gemnasium]: https://gemnasium.com/h2non/youtube-video-api
 [npm]: http://npmjs.org/package/youtube-video-api
-[grunt]: http://gruntjs.com

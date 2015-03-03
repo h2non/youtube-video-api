@@ -5,3 +5,4 @@ test/fixtures
 .npmignore
 .editorconfig
 .gitignore
+.google-oauth2-credentials.json
