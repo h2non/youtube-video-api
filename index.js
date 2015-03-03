@@ -96,7 +96,7 @@ function setCredentials(self, tokens) {
   self._authenticated = true
   self.emit('auth:success', tokens)
 
-  if (self.saveTokens) {
+  if (self.opts.saveTokens) {
     saveTokens(tokens)
   }
 }
