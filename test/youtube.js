@@ -39,21 +39,13 @@ suite('Youtube videos', function () {
 
   test('upload', function (done) {
     client.upload(video, options, function (err, body) {
+      expect(body).to.be.an('object')
       videoId = body.id
+      done()
     })
-      .on('error', done)
-      .on('response', function (res) {
-        expect(res.statusCode).to.be.equal(200)
-        done()
-      })
   })
 
   test('delete', function (done) {
-    client.delete(videoId)
-      .on('error', done)
-      .on('response', function (res) {
-        expect(res.statusCode).to.be.equal(204)
-        done()
-      })
+    client.delete(videoId, done)
   })
 })

@@ -3,12 +3,11 @@ var path = require('path')
 var mime = require('mime')
 var merge = require('merge')
 var EventEmitter = require('events').EventEmitter
-var progress = require('request-progress')
 var parseUrl = require('url').parse
 var google = require('googleapis')
-var Nightmare = require('nightmare')
 var youtube = google.youtube('v3')
 var OAuth2Client = google.auth.OAuth2
+var Nightmare = require('nightmare')
 var NightmareGoogle = require('nightmare-google-oauth2')
 
 var REDIRECT_URL = 'http://localhost:8488'
@@ -62,9 +61,7 @@ YoutubeVideo.prototype.upload = function (path, params, callback) {
   options.media = { body: video }
   options.auth = this.oauth
 
-  var request = youtube.videos.insert(options, callback)
-
-  return progress(request)
+  return youtube.videos.insert(options, callback)
 }
 
 YoutubeVideo.prototype.delete = function (id, callback) {
