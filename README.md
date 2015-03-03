@@ -1,4 +1,4 @@
-# youtube-video-api [![Dependency Status](https://gemnasium.com/h2non/youtube-video-api.png)][gemnasium] [![NPM version](https://img.shields.io/npm/v/youtube-video-api.svg)][npm]
+# youtube-video-api [![Build Status](https://api.travis-ci.org/h2non/youtube-video-api.svg?branch=master)][travis] [![NPM version](https://img.shields.io/npm/v/youtube-video-api.svg)][npm]
 
 Simple **node.js/io.js programmatic interface to** easily **upload and delete videos** from **YouTube** using OAuth2
 
@@ -148,5 +148,4 @@ var youtube = Youtube({
 [MIT](http://opensource.org/licenses/MIT) © Tomas Aparicio
 
 [travis]: https://travis-ci.org/h2non/youtube-video-api
-[gemnasium]: https://gemnasium.com/h2non/youtube-video-api
 [npm]: http://npmjs.org/package/youtube-video-api
