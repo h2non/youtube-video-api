@@ -1,6 +1,6 @@
 {
   "name": "youtube-video-api",
-  "description": "Simple programmatic interface to upload and delete videos from YouTube using the API v3",
+  "description": "Simple programmatic interface to upload and delete videos from YouTube using OAuth2",
   "version": "0.1.0-beta.0",
   "repository": "h2non/youtube-video-api",
   "license": "MIT",
