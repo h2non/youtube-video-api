@@ -43,10 +43,6 @@ var youtube = Youtube({
   }
 })
 
-youtube.on('auth:authorize', function (url) {
-  console.log('Authorization required. Please open the URL:', url)
-})
-
 youtube.on('auth:success', uploadVideo)
 
 youtube.authenticate('my-client-id', 'my-client-secret')
@@ -64,12 +60,16 @@ function uploadVideo() {
     }
   }
 
-  youtube.upload('path/to/video.mp4', params, function (err, body, res) {
+  youtube.upload('path/to/video.mp4', params, function (err, body) {
     if (err) {
       return console.error('Cannot upload video:', err)
     }
 
-    console.log('Video was uploaded with ID:', body.id)
+    console.log('Video was uploaded with ID:', video.id)
+
+    youtube.delete(video.id, function (err) {
+      if (!err) console.log('Video was deleted')
+    })
   })
 }
 ```
@@ -88,7 +88,7 @@ Youtube Videos API constructor. Returns an evented API based on `EventEmitter` s
 
 Supported options:
 
-- **saveTokens** `boolean` - Save OAuth tokens in disk to avoid browser authorization. Default `true`
+- **saveTokens** `boolean` - Save OAuth tokens in `.google-oauth2-credentials.json`. Default `true`
 - **video** `object` - Default video options to send to the API. Documentation [here](https://developers.google.com/youtube/v3/docs/videos)
 - **email** `string` - Optional. Google Account email login required obtain a valid OAuth2 token. You can pass it as env variable `GOOGLE_LOGIN_EMAIL`
 - **password** `string` - Optional. Google Account password login required to obtain a valid OAuth2 token. You can pass it as env `GOOGLE_LOGIN_PASSWORD`
@@ -114,7 +114,6 @@ Dispached events:
 
 - **error** `error` - Fired when some error happend
 - **auth:success** `token` - Fired when the client was authorized successfully
-- **auth:authorize** `url` - Fired with the URL to provide explicit permissing to the OAuth2 client
 
 ## Google OAuth
 
@@ -141,6 +140,16 @@ var youtube = Youtube({
   email: 'john@gmail.com',
   password: 'svp3r_p@s$p0rd'
 })
+
+youtube.on('auth:success', function (err) {
+  if (!err) {
+    youtube.upload('path/to/video.mp4', {}, function (err, video) {
+      if (!err) console.log('Video was uploaded:', video.id)
+    })
+  }
+})
+
+youtube.authenticate('my-client-id', 'my-client-secret')
 ```
 
 ## License
