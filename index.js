@@ -33,7 +33,6 @@ YoutubeVideo.prototype.authenticate = function (clientId, clientSecret, tokens) 
   if (!tokens && fs.existsSync(storePath)) {
     tokens = JSON.parse(fs.readFileSync(storePath))
   }
-
   if (tokens && tokens.access_token) {
     return setCredentials(this, tokens)
   }
@@ -48,7 +47,7 @@ YoutubeVideo.prototype.authenticate = function (clientId, clientSecret, tokens) 
 
 YoutubeVideo.prototype.insert =
 YoutubeVideo.prototype.upload = function (path, params, callback) {
-  if (!this._authenticated) { missingAuthentication() }
+  if (!this._authenticated) { return missingAuthentication() }
 
   var video = fs.createReadStream(path)
 
@@ -65,7 +64,7 @@ YoutubeVideo.prototype.upload = function (path, params, callback) {
 }
 
 YoutubeVideo.prototype.delete = function (id, callback) {
-  if (!this._authenticated) { missingAuthentication() }
+  if (!this._authenticated) { return missingAuthentication() }
   return youtube.videos.delete({ id: id, auth: this.oauth }, callback)
 }
 
