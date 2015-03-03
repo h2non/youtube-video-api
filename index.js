@@ -18,7 +18,6 @@ exports = module.exports = function (opts) {
 }
 
 function YoutubeVideo(opts) {
-  this.oauth = null
   this._authenticated = false
   this.opts = merge({ saveTokens: true }, opts)
 }
@@ -109,5 +108,5 @@ function storeFilePath() {
 }
 
 function missingAuthentication() {
-  throw new Error('You must be authenticate before perform this operation')
+  throw new Error('Authentication is required to do this operation')
 }
