@@ -1,6 +1,6 @@
 # youtube-video-api [![Build Status](https://api.travis-ci.org/h2non/youtube-video-api.svg?branch=master)][travis] [![NPM version](https://img.shields.io/npm/v/youtube-video-api.svg)][npm]
 
-Simple **node.js/io.js programmatic interface to** easily **upload and delete videos** from **YouTube** using [OAuth2](https://developers.google.com/accounts/docs/OAuth2) and Google [API v3](https://developers.google.com/youtube/v3/docs/videos)
+Simple **node.js/io.js programmatic interface to** easily **upload and delete videos** from **YouTube** using [OAuth2](https://developers.google.com/accounts/docs/OAuth2) and [Google API v3](https://developers.google.com/youtube/v3/docs/videos)
 
 It was designed to provide a reliable server-to-server automation, with additional support for
 automatic Google API OAuth2 token retrieval using [PhantomJS](http://phantomjs.org)
