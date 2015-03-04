@@ -157,5 +157,6 @@ youtube.authenticate('my-client-id', 'my-client-secret')
 
 [MIT](http://opensource.org/licenses/MIT) © Tomas Aparicio
 
+[console]: https://code.google.com/apis/console/
 [travis]: https://travis-ci.org/h2non/youtube-video-api
 [npm]: http://npmjs.org/package/youtube-video-api
