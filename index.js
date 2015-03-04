@@ -99,14 +99,12 @@ function setCredentials(self, tokens) {
 }
 
 function saveTokens(tokens) {
+  var filePath = path.join(process.cwd(), CREDENTIALS_FILENAME)
+  
   fs.writeFile(
-    storeFilePath(),
+    filePath,
     JSON.stringify(tokens, null, 2)
   )
-}
-
-function storeFilePath() {
-  return path.join(process.cwd(), CREDENTIALS_FILENAME)
 }
 
 function missingAuthentication() {
