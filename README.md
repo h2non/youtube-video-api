@@ -17,7 +17,7 @@ npm install youtube-video-api --save
 
 If you already have a valid OAuth2 token, you can create in your working directory a file called `.google-oauth2-credentials.json` to store it.
 
-This will avoid you to define your Google account email and password to automatically obtain a valid OAuth2 token on-the-fly using [PhantomJS](http://phantomjs.org), read [this](#google-oauth)
+This will avoid you to define your Google account email and password to automatically obtain a valid OAuth2 token using [PhantomJS](http://phantomjs.org), however if you want to get a fresh OAuth2 token automatically on-the-fly read [this](#google-oauth)
 
 Example file:
 ```json
