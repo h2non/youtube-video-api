@@ -2,7 +2,7 @@
 
 Simple **node.js/io.js programmatic interface to** easily **upload and delete videos** from **YouTube** using [OAuth2](https://developers.google.com/accounts/docs/OAuth2) and [Google API v3](https://developers.google.com/youtube/v3/docs/videos)
 
-It was designed to provide a reliable server-to-server automation, with additional support for
+It was designed to provide a reliable server-to-server automation solution, with additional support for
 automatic Google API OAuth2 token retrieval using [PhantomJS](http://phantomjs.org)
 
 **Note**: this is still a beta implementation, don't use it for serious stuff
