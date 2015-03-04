@@ -24,6 +24,7 @@ function YoutubeVideo(opts) {
 
 YoutubeVideo.prototype = Object.create(EventEmitter.prototype)
 
+YoutubeVideo.prototype.auth =
 YoutubeVideo.prototype.authenticate = function (clientId, clientSecret, tokens) {
   if (this._authenticated) { return }
   this.oauth = new OAuth2Client(clientId, clientSecret, REDIRECT_URL)
@@ -62,6 +63,7 @@ YoutubeVideo.prototype.upload = function (path, params, callback) {
   return youtube.videos.insert(options, callback)
 }
 
+YoutubeVideo.prototype.remove =
 YoutubeVideo.prototype.delete = function (id, callback) {
   if (!this._authenticated) { return missingAuthentication() }
   return youtube.videos.delete({ id: id, auth: this.oauth }, callback)
