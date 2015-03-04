@@ -60,13 +60,14 @@ function uploadVideo() {
     }
   }
 
-  youtube.upload('path/to/video.mp4', params, function (err, body) {
+  youtube.upload('path/to/video.mp4', params, function (err, video) {
     if (err) {
       return console.error('Cannot upload video:', err)
     }
 
     console.log('Video was uploaded with ID:', video.id)
-
+  
+    // this is just a test! delete it
     youtube.delete(video.id, function (err) {
       if (!err) console.log('Video was deleted')
     })
@@ -91,7 +92,7 @@ Supported options:
 - **saveTokens** `boolean` - Save OAuth tokens in `.google-oauth2-credentials.json`. Default `true`
 - **video** `object` - Default video options to send to the API. Documentation [here](https://developers.google.com/youtube/v3/docs/videos)
 - **email** `string` - Optional. Google Account email login required obtain a valid OAuth2 token. You can pass it as env variable `GOOGLE_LOGIN_EMAIL`
-- **password** `string` - Optional. Google Account password login required to obtain a valid OAuth2 token. You can pass it as env `GOOGLE_LOGIN_PASSWORD`
+- **password** `string` - Optional. Google Account password login required to obtain a valid OAuth2 token. You can pass it as env variable `GOOGLE_LOGIN_PASSWORD`
 
 #### youtube#upload(video [, callback ])
 Alias: `insert`
