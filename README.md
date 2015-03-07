@@ -108,8 +108,26 @@ You can see all the allowed params [here](https://developers.google.com/youtube/
 Delete a video, passing its ID as `string`
 
 #### youtube#authenticate(clientId, clientSecret [, token ])
+Alias: `auth`
 
 Authorize the client to perform read/write API operations. You **must call this method** on each new Youtube client 
+
+#### youtube#list(options, callback)
+
+Returns a list of videos that match the API request parameters. See endpoint [documentation](https://developers.google.com/youtube/v3/docs/videos/list)
+
+#### youtube#update(options, callback)
+
+Updates a video's metadata. See endpoint [documentation](https://developers.google.com/youtube/v3/docs/videos/update)
+
+#### youtube#rate(id, rating, callback)
+
+Add a like or dislike rating to a video or remove a rating from a video. See endpoint [documentation](https://developers.google.com/youtube/v3/docs/videos/rate)
+
+#### youtube#getRating(id, callback)
+
+Retrieves the ratings that the authorized user gave to a list of specified videos. 
+See endpoint [documentation](https://developers.google.com/youtube/v3/docs/videos/getRating)
 
 #### youtube#on(event, fn)
 
