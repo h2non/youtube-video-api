@@ -31,7 +31,7 @@ YoutubeVideo.prototype.authenticate = function (clientId, clientSecret, tokens) 
   if (this._authenticated) { return }
   this.oauth = new OAuth2Client(clientId, clientSecret, REDIRECT_URL)
 
-  var storePath = storeFilePath()
+  var storePath = CREDENTIALS_FILENAME
   if (!tokens && fs.existsSync(storePath)) {
     tokens = JSON.parse(fs.readFileSync(storePath))
   }
@@ -98,7 +98,7 @@ function getAccessToken(self, callback) {
     'https://www.googleapis.com/auth/youtube',
     'https://www.googleapis.com/auth/youtube.upload'
   ].join(' ')
-    
+
   var params = {
     email: self.email || process.env.GOOGLE_LOGIN_EMAIL,
     password: self.password || process.env.GOOGLE_LOGIN_PASSWORD,
@@ -126,7 +126,7 @@ function setCredentials(self, tokens) {
 
 function saveTokens(tokens) {
   var filePath = path.join(process.cwd(), CREDENTIALS_FILENAME)
-  
+
   fs.writeFile(
     filePath,
     JSON.stringify(tokens, null, 2)
