@@ -86,7 +86,7 @@ YoutubeVideo.prototype.rate = function (id, rating, callback) {
 
 YoutubeVideo.prototype._command = function (action, params, callback) {
   if (!this._authenticated) return missingAuthentication(callback)
-  return youtube.videos[action](_.assign({ auth: this.oauth }, params), callback)
+  return youtube.videos[action](merge({ auth: this.oauth }, params), callback)
 }
 
 function getAccessToken(self, callback) {
