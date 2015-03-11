@@ -49,8 +49,6 @@ YoutubeVideo.prototype.authenticate = function (clientId, clientSecret, tokens) 
 
 YoutubeVideo.prototype.insert =
 YoutubeVideo.prototype.upload = function (path, params, callback) {
-  if (!this._authenticated) return missingAuthentication(callback)
-
   var video = fs.createReadStream(path)
 
   var options = merge({}, this.opts.video, {
@@ -62,35 +60,33 @@ YoutubeVideo.prototype.upload = function (path, params, callback) {
   options.media = { body: video }
   options.auth = this.oauth
 
-  return youtube.videos.insert(options, callback)
+  return this._command('insert', options, callback)
 }
 
 YoutubeVideo.prototype.remove =
 YoutubeVideo.prototype.delete = function (id, callback) {
-  if (!this._authenticated) return missingAuthentication(callback)
-  return youtube.videos.delete({ id: id, auth: this.oauth }, callback)
+  return this._command('delete', { id: id }, callback)
 }
 
 YoutubeVideo.prototype.list = function (options, callback) {
-  if (!this._authenticated) return missingAuthentication(callback)
-  var params = merge({}, options, { auth: this.oauth })
-  return youtube.videos.list(params, callback)
+  return this._command('list', options, callback)
 }
 
 YoutubeVideo.prototype.update = function (options, callback) {
-  if (!this._authenticated) return missingAuthentication(callback)
-  var params = merge({}, options, { auth: this.oauth })
-  return youtube.videos.update(params, callback)
+  return this._command('update', options, callback)
 }
 
 YoutubeVideo.prototype.getRating = function (id, callback) {
-  if (!this._authenticated) return missingAuthentication(callback)
-  return youtube.videos.getRating({ id: id, auth: this.oauth }, callback)
+  return this._command('getRating', { id: id }, callback)
 }
 
 YoutubeVideo.prototype.rate = function (id, rating, callback) {
+  return this._command('rate', { id: id, rating: rating }, callback)
+}
+
+YoutubeVideo.prototype._command = function (action, params, callback) {
   if (!this._authenticated) return missingAuthentication(callback)
-  return youtube.videos.rate({ id: id, rating: rating, auth: this.oauth }, callback)
+  return youtube.videos[action](_.assign({ auth: this.oauth }, params), callback)
 }
 
 function getAccessToken(self, callback) {
