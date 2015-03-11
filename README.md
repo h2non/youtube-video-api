@@ -4,8 +4,6 @@ Simple **node.js/io.js programmatic interface to** easily **upload, list, update
 
 It was designed to provide a reliable server-to-server automation solution, with additional support for  Google API OAuth2 token automatically retrieval using [PhantomJS](http://phantomjs.org)
 
-**Note**: this is still a beta implementation, don't use it for serious stuff
-
 ## Installation
 
 ```bash
