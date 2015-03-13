@@ -134,6 +134,18 @@ Dispached events:
 - **error** `error` - Fired when some error happend
 - **auth:success** `token` - Fired when the client was authorized successfully
 
+### youtube.google
+
+Expose the [node.js Google APIs](https://github.com/google/google-api-nodejs-client) module
+
+### youtube.youtube
+
+Expose the [node.js Google APIs](https://github.com/google/google-api-nodejs-client) YouTube API constructor
+
+### youtube.VERSION
+
+Expose the package current semantic version 
+
 ## Google OAuth
 
 ### Automatically obtain a valid OAuth2 token
