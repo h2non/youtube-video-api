@@ -5,10 +5,11 @@ var merge = require('merge')
 var EventEmitter = require('events').EventEmitter
 var parseUrl = require('url').parse
 var google = require('googleapis')
-var youtube = google.youtube('v3')
-var OAuth2Client = google.auth.OAuth2
 var Nightmare = require('nightmare')
 var NightmareGoogle = require('nightmare-google-oauth2')
+
+var youtube = google.youtube('v3')
+var OAuth2Client = google.auth.OAuth2
 
 var REDIRECT_URL = 'http://localhost:8488'
 var CREDENTIALS_FILENAME = '.google-oauth2-credentials.json'
@@ -17,12 +18,14 @@ exports = module.exports = function (opts) {
   return new YoutubeVideo(opts)
 }
 
+exports.google = google
+exports.youtube = youtube
+exports.VERSION = require('./package.json').version
+
 function YoutubeVideo(opts) {
   this._authenticated = false
   this.opts = merge({ saveTokens: true }, opts)
 }
-
-YoutubeVideo.youtube = youtube
 
 YoutubeVideo.prototype = Object.create(EventEmitter.prototype)
 
