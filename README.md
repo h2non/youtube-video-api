@@ -1,6 +1,6 @@
 # youtube-video-api [![Build Status](https://api.travis-ci.org/h2non/youtube-video-api.svg?branch=master)][travis] [![NPM version](https://img.shields.io/npm/v/youtube-video-api.svg)][npm]
 
-Simple **node.js/io.js programmatic interface to** easily **upload, list, update, rate and delete videos** from **YouTube** using [OAuth2](https://developers.google.com/accounts/docs/OAuth2) and [Google API v3](https://developers.google.com/youtube/v3/docs/videos)
+Simple **node.js/io.js programmatic and command-line interface to** easily **upload, list, update, rate and delete videos** from **YouTube** using [OAuth2](https://developers.google.com/accounts/docs/OAuth2) and [Google API v3](https://developers.google.com/youtube/v3/docs/videos)
 
 It was designed to provide a reliable server-to-server automation solution, with additional support for automatically Google API OAuth2 token retrieval using [PhantomJS](http://phantomjs.org)
 
@@ -8,6 +8,11 @@ It was designed to provide a reliable server-to-server automation solution, with
 
 ```bash
 npm install youtube-video-api --save
+```
+
+For command-line usage install it as global package:
+```bash
+npm install -g youtube-video-api
 ```
 
 ## Configuration
@@ -27,10 +32,20 @@ Example file:
 ```
 
 Only `access_token` and `refresh_token` fields are mandatory.
+ 
+## Command-line interface
 
+```bash
+youtube-video --help
+```
 
+```bash
 
-## Usage
+```
+
+## API
+
+### Usage
 
 ```js
 var Youtube = require('youtube-video-api')
@@ -74,14 +89,6 @@ function uploadVideo() {
   })
 }
 ```
-
-<!--
-.on('progress', function (percent) {
-  console.log('% uploaded:', percent)
-})
--->
- 
-## API
 
 ### youtube([ options ])
 
