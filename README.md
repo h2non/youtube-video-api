@@ -72,13 +72,13 @@ Options:
   --rating, -x    Video rating score                                            
   --next, -n      Return the next page token results for list command           
   --prev, -p      Return the previous page token results for list command       
-  --debug, -d     Enable debug mode                             [default: false]
+  --debug, -d     Enable debug mode [default: false]
 
 Examples:
-  bin/youtube-video-api upload -c clientId -k clientSecret -f config.json -v video.mp4                                                     
-  bin/youtube-video-api remove -c clientId -k clientSecret -i 23XsFi23LKD                                                                  
-  bin/youtube-video-api update -c clientId -k clientSecret -c config.json                                                                  
-  bin/youtube-video-api rate -c clientId -k clientSecret -i 23XsFi23LKD -v 5                                                             
+  bin/youtube-video-api upload -c clientId -k clientSecret -f config.json -v video.mp4
+  bin/youtube-video-api remove -c clientId -k clientSecret -i 23XsFi23LKD
+  bin/youtube-video-api update -c clientId -k clientSecret -c config.json
+  bin/youtube-video-api rate -c clientId -k clientSecret -i 23XsFi23LKD -v 5
   bin/youtube-video-api list -c clientId -k clientSecret --next
 ```
 
