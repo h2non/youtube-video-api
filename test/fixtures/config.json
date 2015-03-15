@@ -1,0 +1,11 @@
+{
+  "resource": {
+    "snippet": {
+      "title": "test video",
+      "description": "This is a test video uploaded via the YouTube API"
+    },
+    "status": {
+      "privacyStatus": "private"
+    }
+  }
+}

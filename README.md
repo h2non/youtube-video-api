@@ -58,9 +58,11 @@ var youtube = Youtube({
   }
 })
 
-youtube.on('auth:success', uploadVideo)
+youtube.authenticate('my-client-id', 'my-client-secret', function (err, tokens) {
+  if (err) return console.error('Cannot authenticate:', err)
 
-youtube.authenticate('my-client-id', 'my-client-secret')
+  uploadVideo()
+})
 
 function uploadVideo() {
   var params = {
@@ -100,6 +102,9 @@ Supported options:
 - **video** `object` - Default video options to send to the API. Documentation [here](https://developers.google.com/youtube/v3/docs/videos)
 - **email** `string` - Optional. Google Account email login required obtain a valid OAuth2 token. You can pass it as env variable `GOOGLE_LOGIN_EMAIL`
 - **password** `string` - Optional. Google Account password login required to obtain a valid OAuth2 token. You can pass it as env variable `GOOGLE_LOGIN_PASSWORD`
+- **clientId** `string` - Optional. Google API OAuth Client ID
+- **clientSecret** `string` - Optional. Google API OAuth Client Secret
+- **tokens** `object` - Optional. Google API OAuth Client Tokens. Object must contains the following keys: `access_token` and `refresh_token`
 
 #### youtube#upload(video [, callback ])
 Alias: `insert`
@@ -109,17 +114,31 @@ Upload a new video with custom metadata
 You can see all the allowed params [here](https://developers.google.com/youtube/v3/docs/videos/insert)
 
 #### youtube#delete(id [, callback ])
+Alias: `remove`
 
-Delete a video, passing its ID as `string`
+Delete a video, passing its ID. See endpoint [documentation](https://developers.google.com/youtube/v3/docs/videos/delete)
 
-#### youtube#authenticate(clientId, clientSecret [, token ])
+#### youtube#authenticate([ clientId, clientSecret [, tokens ] ], cb)
 Alias: `auth`
 
-Authorize the client to perform read/write API operations. You **must call this method** on each new Youtube client 
+Authorize the client to perform read/write API operations. 
+You **must call this method** on each new Youtube client before interact with the API.
+
+This function is variadic (it allow multiple number of arguments)
+
+If the file `google-oauth2-credentials.json` already exists with valid OAuth2 tokens, 
+you can simply call this method just with a callback 
+```js
+youtube.auth(function (err, tokens) {
+  if (err) return console.error('Cannot auth:', err)
+
+  console.log('Auth tokens:', tokens)
+})
+```
 
 #### youtube#list(options, callback)
 
-Returns a list of videos that match the API request parameters. See endpoint [documentation](https://developers.google.com/youtube/v3/docs/videos/list)
+Returns a list of videos that match the API request parameters. 
 
 #### youtube#update(options, callback)
 
@@ -133,13 +152,6 @@ Add a like or dislike rating to a video or remove a rating from a video. See end
 
 Retrieves the ratings that the authorized user gave to a list of specified videos. 
 See endpoint [documentation](https://developers.google.com/youtube/v3/docs/videos/getRating)
-
-#### youtube#on(event, fn)
-
-Dispached events:
-
-- **error** `error` - Fired when some error happend
-- **auth:success** `token` - Fired when the client was authorized successfully
 
 ### youtube.google
 

@@ -2,11 +2,11 @@ var fs = require('fs')
 var path = require('path')
 var mime = require('mime')
 var merge = require('merge')
-var EventEmitter = require('events').EventEmitter
 var parseUrl = require('url').parse
 var google = require('googleapis')
 var Nightmare = require('nightmare')
 var NightmareGoogle = require('nightmare-google-oauth2')
+var version = require('./package.json').version
 
 var youtube = google.youtube('v3')
 var OAuth2Client = google.auth.OAuth2
@@ -20,34 +20,11 @@ exports = module.exports = function (opts) {
 
 exports.google = google
 exports.youtube = youtube
-exports.VERSION = require('./package.json').version
+exports.VERSION = version
 
 function YoutubeVideo(opts) {
   this._authenticated = false
   this.opts = merge({ saveTokens: true }, opts)
-}
-
-YoutubeVideo.prototype = Object.create(EventEmitter.prototype)
-
-YoutubeVideo.prototype.auth =
-YoutubeVideo.prototype.authenticate = function (clientId, clientSecret, tokens) {
-  if (this._authenticated) { return }
-  this.oauth = new OAuth2Client(clientId, clientSecret, REDIRECT_URL)
-
-  var storePath = CREDENTIALS_FILENAME
-  if (!tokens && fs.existsSync(storePath)) {
-    tokens = JSON.parse(fs.readFileSync(storePath))
-  }
-  if (tokens && tokens.access_token) {
-    return setCredentials(this, tokens)
-  }
-
-  getAccessToken(this, onAuthenticate.bind(this))
-
-  function onAuthenticate(err, tokens) {
-    if (err) this.emit('error', err)
-    else setCredentials(this, tokens)
-  }
 }
 
 YoutubeVideo.prototype.insert =
@@ -71,11 +48,13 @@ YoutubeVideo.prototype.delete = function (id, callback) {
   return this._command('delete', { id: id }, callback)
 }
 
-YoutubeVideo.prototype.list = function (options, callback) {
+YoutubeVideo.prototype.list = function (params, callback) {
+  var options = merge({}, { part: 'status,snippet', chart: 'mostPopular' }, this.opts.video, params)
   return this._command('list', options, callback)
 }
 
-YoutubeVideo.prototype.update = function (options, callback) {
+YoutubeVideo.prototype.update = function (params, callback) {
+  var options = merge({}, { part: 'status,snippet' }, this.opts.video, params)
   return this._command('update', options, callback)
 }
 
@@ -89,20 +68,57 @@ YoutubeVideo.prototype.rate = function (id, rating, callback) {
 
 YoutubeVideo.prototype._command = function (action, params, callback) {
   if (!this._authenticated) return missingAuthentication(callback)
-  return youtube.videos[action](merge({ auth: this.oauth }, params), callback)
+  var options = merge({ auth: this.oauth }, params)
+  return youtube.videos[action](options, callback)
 }
 
-function getAccessToken(self, callback) {
+YoutubeVideo.prototype.auth =
+YoutubeVideo.prototype.authenticate = function (clientId, clientSecret, tokens, cb) {
+  if (this._authenticated) { return }
+
+  var args = Array.prototype.slice.call(arguments)
+  clientId = typeof clientId === 'string' ? clientId : this.opts.clientId
+  clientSecret = typeof clientSecret === 'string' ? clientSecret : this.opts.clientSecret
+  tokens = typeof tokens === 'object' ? tokens : this.opts.tokens
+
+  cb = args.filter(function (arg) {
+    return typeof arg === 'function'
+  }).shift()
+
+  if (!clientId || !clientSecret) {
+    throw new TypeError('Missing required params: clientId and clientSecret')
+  }
+
+  this.oauth = new OAuth2Client(clientId, clientSecret, REDIRECT_URL)
+  oauthLazyHandshake.call(this, tokens, cb)
+}
+
+function oauthLazyHandshake(tokens, cb) {
+  if (!tokens && fs.existsSync(CREDENTIALS_FILENAME)) {
+    tokens = JSON.parse(fs.readFileSync(CREDENTIALS_FILENAME))
+  }
+  if (tokens && tokens.access_token) {
+    return setCredentials.call(this, tokens, cb)
+  }
+
+  getAccessToken.call(this, function onAuthenticate(err, tokens) {
+    if (err) return cb(err)
+
+    setCredentials.call(this, tokens, cb)
+  }.bind(this))
+}
+
+function getAccessToken(callback) {
   var scope = [
     'https://www.googleapis.com/auth/youtube',
     'https://www.googleapis.com/auth/youtube.upload'
   ].join(' ')
 
   var params = {
-    email: self.email || process.env.GOOGLE_LOGIN_EMAIL,
-    password: self.password || process.env.GOOGLE_LOGIN_PASSWORD,
-    clientId: self.oauth.clientId_,
-    clientSecret: self.oauth.clientSecret_,
+    email: this.email || process.env.GOOGLE_LOGIN_EMAIL,
+    password: this.password || process.env.GOOGLE_LOGIN_PASSWORD,
+    clientId: this.oauth.clientId_,
+    clientSecret: this.oauth.clientSecret_,
     scope: scope
   }
 
@@ -113,20 +129,21 @@ function getAccessToken(self, callback) {
     })
 }
 
-function setCredentials(self, tokens) {
-  self.oauth.setCredentials(tokens)
-  self._authenticated = true
-  self.emit('auth:success', tokens)
+function setCredentials(tokens, cb) {
+  this.oauth.setCredentials(tokens)
+  this._authenticated = true
 
-  if (self.opts.saveTokens) {
+  if (this.opts.saveTokens) {
     saveTokens(tokens)
   }
+
+  cb(null, tokens)
 }
 
 function saveTokens(tokens) {
   var filePath = path.join(process.cwd(), CREDENTIALS_FILENAME)
 
-  fs.writeFile(
+  fs.writeFileSync(
     filePath,
     JSON.stringify(tokens, null, 2)
   )

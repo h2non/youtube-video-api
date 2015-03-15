@@ -31,13 +31,7 @@ suite('Youtube videos', function () {
 
   test('authenticate', function (done) {
     client = youtube({ email: EMAIL, password: PASSWORD })
-    client.on('auth:success', function (tokens) {
-      done()
-    })
-
-    client.on('error', done)
-
-    client.authenticate(CLIENT_ID, CLIENT_SECRET)
+    client.authenticate(CLIENT_ID, CLIENT_SECRET, done)
   })
 
   test('upload', function (done) {
@@ -45,6 +39,36 @@ suite('Youtube videos', function () {
       expect(body).to.be.an('object')
       videoId = body.id
       done()
+    })
+  })
+
+  test('update', function (done) {
+    options.resource.snippet.description = 'Hello World'
+    client.upload(video, options, function (err, body) {
+      expect(body).to.be.an('object')
+      expect(body.snippet.description).to.be.equal('Hello World')
+      done(err)
+    })
+  })
+
+  test('list', function (done) {
+    client.list({ maxResults: 10 }, function (err, data) {
+      expect(data).to.be.an('object')
+      done(err)
+    })
+  })
+
+  test('rate', function (done) {
+    client.rate(videoId, 'like', function (err) {
+      done()
+    })
+  })
+
+  test('getRating', function (done) {
+    client.getRating(videoId, function (err, data) {
+      expect(data).to.be.an('object')
+      expect(data.items[0].rating).to.be.equal('none')
+      done(err)
     })
   })
 

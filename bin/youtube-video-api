@@ -1,3 +1,209 @@
 #!/usr/bin/env node
 
-var yargs = require('yargs')
+var fs = require('fs')
+var youtube = require('..')
+
+var argv = require('yargs')
+  .usage('Usage: $0 <command> [options]')
+  .help('h')
+  .alias('h', 'help')
+  .version(youtube.VERSION)
+  .command('upload', 'Upload a video to Youtube')
+  .command('delete', 'Remove a video from Youtube')
+  .command('update', 'Update a video from Youtube')
+  .command('rate',   'Rate a video from Youtube')
+  .command('list',   'List videos from Youtube')
+  .demand(1)
+  .example('$0 upload -c clientId -k clientSecret -f config.json -v video.mp4')
+  .example('$0 remove -c clientId -k clientSecret -i 23XsFi23LKD')
+  .example('$0 update -c clientId -k clientSecret -c config.json')
+  .example('$0 rate -c clientId -k clientSecret -i 23XsFi23LKD -v 5')
+  .example('$0 list --next')
+  .options({
+    file: {
+      alias: 'f',
+      describe: 'path to video config JSON file',
+      type: 'string'
+    },
+    client: {
+      alias: 'c',
+      demand: true,
+      default: process.env.GOOGLE_API_CLIENT_ID,
+      describe: 'Google API Client ID. You can pass it as env variable: GOOGLE_API_CLIENT_ID',
+      type: 'string'
+    },
+    secret: {
+      alias: 's',
+      demand: true,
+      default: process.env.GOOGLE_API_CLIENT_SECRET,
+      describe: 'Google API Client Secret. You can pass it as env variable: GOOGLE_API_CLIENT_SECRET',
+      type: 'string'
+    },
+    token: {
+      alias: 't',
+      default: process.env.GOOGLE_API_TOKEN,
+      describe: 'Google API OAuth2 token. You can pass it as env variable: GOOGLE_API_TOKEN',
+      type: 'string'
+    },
+    refresh: {
+      alias: 'r',
+      default: process.env.GOOGLE_API_REFRESH_TOKEN,
+      describe: 'Google API OAuth2 refresh token. You can pass it as env variable: GOOGLE_API_REFRESH_TOKEN',
+      type: 'string'
+    },
+    email: {
+      alias: 'e',
+      describe: 'Google account email, used for automatic OAuth2. You can pass it as env variable: GOOGLE_LOGIN_EMAIL',
+      type: 'string'
+    },
+    password: {
+      alias: 'p',
+      describe: 'Google account password, used for automatic OAuth2. You can pass it as env variable: GOOGLE_LOGIN_PASSWORD',
+      type: 'string'
+    },
+    id: {
+      alias: 'i',
+      describe: 'Video idenfitier',
+      type: 'string'
+    },
+    video: {
+      alias: 'v',
+      describe: 'File path to video',
+      type: 'string'
+    },
+    rating: {
+      alias: 'x',
+      describe: 'Video rating score',
+      type: 'string'
+    },
+    next: {
+      alias: 'n',
+      describe: 'Return the next page token results for list command',
+      type: 'boolean'
+    },
+    prev: {
+      alias: 'p',
+      describe: 'Return the previous page token results for list command',
+      type: 'boolean'
+    },
+    debug: {
+      alias: 'd',
+      default: false,
+      describe: 'Enable debug mode',
+      type: 'boolean'
+    }
+  })
+  .argv
+
+var action = argv._.shift()
+
+var params = {
+  email: argv.email,
+  password: argv.password,
+  clientId: argv.client,
+  clientSecret: argv.secret
+}
+
+if (argv.token) {
+  params.tokens = {
+    access_token: argv.token
+  }
+  if (argv.refresh) {
+    params.tokens.refresh_token = argv.refresh
+  }
+}
+
+var client = youtube(params)
+
+run(function () {
+  client.auth(function (err) {
+    if (err) return error()
+    run(runCommand)
+  })
+})
+
+function runCommand() {
+  var args = null
+
+  switch (action) {
+    case 'upload':
+      if (!argv.video || !argv.file) {
+        argumentsRequired('--video, --file')
+      }
+      args = [ argv.video, JSON.parse(fs.readFileSync(argv.file)) ]
+      break
+
+    case 'delete':
+      if (!argv.id) {
+        argumentsRequired('--id')
+      }
+      args = [ argv.id ]
+      break
+
+    case 'update':
+      if (!argv.file) {
+        argumentsRequired('--file')
+      }
+      var params = JSON.parse(fs.readFileSync(argv.file))
+      if (argv.id) {
+        params.id = argv.id
+      }
+      args = [ params ]
+      break
+
+    case 'rate':
+      if (!argv.id || !argv.rating) {
+        argumentsRequired('--id, --rating')
+      }
+      args = [ argv.id, argv.rating ]
+      break
+
+    case 'list':
+      var options = { maxResults: 50 }
+      if (argv.next) {
+        options.pageToken = 'nextPageToken'
+      } else if (argv.prev) {
+        options.pageToken = 'prevPageToken'
+      }
+      args = [ options ]
+      break
+
+    default:
+      console.error('Invalid command:', action)
+      console.error('To see the available command, use: --help')
+      process.exit(1)
+      break
+  }
+
+  run(function () {
+    client[action].apply(client, args.concat([ handler ]))
+  })
+}
+
+function run(fn) {
+  try {
+    fn()
+  } catch (err) {
+    error(err)
+  }
+}
+
+function handler(err, data) {
+  if (err) error(err)
+  else if (data && typeof data === 'object') {
+    console.log(JSON.stringify(data, null, 2))
+  }
+}
+
+function argumentsRequired(arg) {
+  console.error('Missing required arguments:', arg)
+  process.exit(1)
+}
+
+function error(err) {
+  console.error('Command failed:', err.message || err)
+  if (argv.debug && err.stack) {
+    console.error(err.stack)
+  }
+  process.exit(1)
+}
