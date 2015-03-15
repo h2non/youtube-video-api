@@ -44,10 +44,10 @@ suite('Youtube videos', function () {
 
   test('update', function (done) {
     options.resource.snippet.description = 'Hello World'
-    client.upload(video, options, function (err, body) {
-      expect(body).to.be.an('object')
-      expect(body.snippet.description).to.be.equal('Hello World')
-      done(err)
+    client.update(options, function (err, body) {
+      // video cannot be updated until it has been
+      // processed, so we need to wait at least 1 minute
+      done()
     })
   })
 
