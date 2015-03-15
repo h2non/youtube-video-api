@@ -40,7 +40,46 @@ youtube-video --help
 ```
 
 ```bash
+Usage: bin/youtube-video-api <command> [options]
 
+Commands:
+  upload    Upload a video to Youtube                                           
+  delete    Remove a video from Youtube                                         
+  update    Update a video from Youtube                                         
+  rate      Rate a video from Youtube                                           
+  list      List videos from Youtube                                            
+
+Options:
+  -h, --help      Show help                                                     
+  --version       Show version number                                           
+  --file, -f      path to video config JSON file                                
+  --client, -c    Google API Client ID. You can pass it as env variable:
+                  GOOGLE_API_CLIENT_ID
+                  [required]  [default: ""]
+  --secret, -s    Google API Client Secret. You can pass it as env variable:
+                  GOOGLE_API_CLIENT_SECRET
+                               [required]  [default: ""]
+  --token, -t     Google API OAuth2 token. You can pass it as env variable:
+                  GOOGLE_API_TOKEN                                              
+  --refresh, -r   Google API OAuth2 refresh token. You can pass it as env
+                  variable: GOOGLE_API_REFRESH_TOKEN                            
+  --email, -e     Google account email, used for automatic OAuth2. You can pass
+                  it as env variable: GOOGLE_LOGIN_EMAIL                        
+  --password, -p  Google account password, used for automatic OAuth2. You can
+                  pass it as env variable: GOOGLE_LOGIN_PASSWORD                
+  --id, -i        Video idenfitier                                              
+  --video, -v     File path to video                                            
+  --rating, -x    Video rating score                                            
+  --next, -n      Return the next page token results for list command           
+  --prev, -p      Return the previous page token results for list command       
+  --debug, -d     Enable debug mode                             [default: false]
+
+Examples:
+  bin/youtube-video-api upload -c clientId -k clientSecret -f config.json -v video.mp4                                                     
+  bin/youtube-video-api remove -c clientId -k clientSecret -i 23XsFi23LKD                                                                  
+  bin/youtube-video-api update -c clientId -k clientSecret -c config.json                                                                  
+  bin/youtube-video-api rate -c clientId -k clientSecret -i 23XsFi23LKD -v 5                                                             
+  bin/youtube-video-api list -c clientId -k clientSecret --next
 ```
 
 ## API
