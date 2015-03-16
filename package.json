@@ -38,6 +38,10 @@
     "insert",
     "delete",
     "remove",
-    "videos"
+    "videos",
+    "rate",
+    "list",
+    "thumbnail",
+    "update"
   ]
 }
