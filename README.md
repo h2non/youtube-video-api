@@ -192,6 +192,20 @@ Add a like or dislike rating to a video or remove a rating from a video. See end
 Retrieves the ratings that the authorized user gave to a list of specified videos. 
 See endpoint [documentation](https://developers.google.com/youtube/v3/docs/videos/getRating)
 
+#### youtube#thumbnails(id, media, callback)
+
+Uploads a custom video thumbnail to YouTube and sets it for a video.
+See endpoint [documentation](https://developers.google.com/youtube/v3/docs/thumbnails/set)
+
+```js
+youtube.thumbnails(videoId, { 
+    mimeType: 'image/jpg', 
+    body: fs.createReadStream('image.jpg') 
+  }, function (err) {
+    if (err) console.error('Cannot define the thumbnail')
+  })
+```
+
 ### youtube.google
 
 Expose the [node.js Google APIs](https://github.com/google/google-api-nodejs-client) module

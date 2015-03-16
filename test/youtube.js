@@ -1,3 +1,4 @@
+var fs = require('fs')
 var expect = require('chai').expect
 var youtube = require('../')
 
@@ -60,6 +61,13 @@ suite('Youtube videos', function () {
 
   test('rate', function (done) {
     client.rate(videoId, 'like', function (err) {
+      done()
+    })
+  })
+
+  test('thumbnails', function (done) {
+    var media = { mimeType: 'image/png', body: fs.createReadStream('./test/fixtures/thumbnail.png') }
+    client.thumbnails(videoId, media, function (err) {
       done()
     })
   })

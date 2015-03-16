@@ -66,6 +66,11 @@ YoutubeVideo.prototype.rate = function (id, rating, callback) {
   return this._command('rate', { id: id, rating: rating }, callback)
 }
 
+YoutubeVideo.prototype.thumbnails = function (id, media, callback) {
+  var params = merge({ auth: this.oauth }, { videoId: id, media: media })
+  return youtube.thumbnails.set(params, callback)
+}
+
 YoutubeVideo.prototype._command = function (action, params, callback) {
   if (!this._authenticated) return missingAuthentication(callback)
   var options = merge({ auth: this.oauth }, params)
@@ -97,13 +102,13 @@ function oauthLazyHandshake(tokens, cb) {
   if (!tokens && fs.existsSync(CREDENTIALS_FILENAME)) {
     tokens = JSON.parse(fs.readFileSync(CREDENTIALS_FILENAME))
   }
+
   if (tokens && tokens.access_token) {
     return setCredentials.call(this, tokens, cb)
   }
 
   getAccessToken.call(this, function onAuthenticate(err, tokens) {
     if (err) return cb(err)
-
     setCredentials.call(this, tokens, cb)
   }.bind(this))
 }
