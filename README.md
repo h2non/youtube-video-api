@@ -97,25 +97,24 @@ var youtube = Youtube({
   }
 })
 
+var params = {
+  resource: {
+    snippet: {
+      title: 'test video',
+      description: 'This is a test video uploaded via the YouTube API'
+    },
+    status: {
+      privacyStatus: 'private'
+    }
+  }
+}
+
 youtube.authenticate('my-client-id', 'my-client-secret', function (err, tokens) {
   if (err) return console.error('Cannot authenticate:', err)
-
   uploadVideo()
 })
 
 function uploadVideo() {
-  var params = {
-    resource: {
-      snippet: {
-        title: 'test video',
-        description: 'This is a test video uploaded via the YouTube API'
-      },
-      status: {
-        privacyStatus: 'private'
-      }
-    }
-  }
-
   youtube.upload('path/to/video.mp4', params, function (err, video) {
     if (err) {
       return console.error('Cannot upload video:', err)
@@ -148,7 +147,7 @@ Supported options:
 #### youtube#upload(video [, callback ])
 Alias: `insert`
 
-Upload a new video with custom metadata
+Upload a new video with custom metadata. `video` argument me be the path to the video file
 
 You can see all the allowed params [here](https://developers.google.com/youtube/v3/docs/videos/insert)
 
@@ -194,7 +193,7 @@ See endpoint [documentation](https://developers.google.com/youtube/v3/docs/video
 
 #### youtube#thumbnails(id, media, callback)
 
-Uploads a custom video thumbnail to YouTube and sets it for a video.
+Uploads a custom video thumbnail to YouTube and set it for the given video ID.
 See endpoint [documentation](https://developers.google.com/youtube/v3/docs/thumbnails/set)
 
 ```js
