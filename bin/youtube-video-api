@@ -51,6 +51,11 @@ var argv = require('yargs')
       describe: 'Google API OAuth2 refresh token. You can pass it as env variable: GOOGLE_API_REFRESH_TOKEN',
       type: 'string'
     },
+    account: {
+      alias: 'a',
+      describe: 'Google default email account to use in case of multiple associated Google accounts',
+      type: 'string'
+    },
     email: {
       alias: 'e',
       describe: 'Google account email, used for automatic OAuth2. You can pass it as env variable: GOOGLE_LOGIN_EMAIL',

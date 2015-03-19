@@ -91,7 +91,7 @@ YoutubeVideo.prototype.authenticate = function (clientId, clientSecret, tokens, 
   }).shift()
 
   if (!clientId || !clientSecret) {
-    throw new TypeError('Missing required params: clientId and clientSecret')
+    throw new TypeError('Missing required params: clientId, clientSecret')
   }
 
   this.oauth = new OAuth2Client(clientId, clientSecret, REDIRECT_URL)
@@ -104,13 +104,10 @@ function oauthLazyHandshake(tokens, cb) {
   }
 
   if (tokens && tokens.access_token) {
-    return setCredentials.call(this, tokens, cb)
+    return setCredentials.call(this, cb)(null, tokens)
   }
 
-  getAccessToken.call(this, function onAuthenticate(err, tokens) {
-    if (err) return cb(err)
-    setCredentials.call(this, tokens, cb)
-  }.bind(this))
+  getAccessToken.call(this, setCredentials.call(this, cb))
 }
 
 function getAccessToken(callback) {
@@ -124,7 +121,8 @@ function getAccessToken(callback) {
     password: this.password || process.env.GOOGLE_LOGIN_PASSWORD,
     clientId: this.oauth.clientId_,
     clientSecret: this.oauth.clientSecret_,
-    scope: scope
+    scope: scope,
+    useAccount: this.opts.useAccount
   }
 
   new Nightmare()
@@ -134,15 +132,18 @@ function getAccessToken(callback) {
     })
 }
 
-function setCredentials(tokens, cb) {
-  this.oauth.setCredentials(tokens)
-  this._authenticated = true
+function setCredentials(cb) {
+  var self = this
+  return function (err, tokens) {
+    self.oauth.setCredentials(tokens)
+    self._authenticated = true
 
-  if (this.opts.saveTokens) {
-    saveTokens(tokens)
+    if (self.opts.saveTokens) {
+      saveTokens(tokens)
+    }
+
+    cb(null, tokens)
   }
-
-  cb(null, tokens)
 }
 
 function saveTokens(tokens) {

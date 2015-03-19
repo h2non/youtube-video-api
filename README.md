@@ -67,6 +67,8 @@ Options:
                   it as env variable: GOOGLE_LOGIN_EMAIL
   --password, -p  Google account password, used for automatic OAuth2. You can
                   pass it as env variable: GOOGLE_LOGIN_PASSWORD
+  --account, -a   Google default email account to use in case of multiple 
+                  associated Google accounts
   --id, -i        Video idenfitier
   --video, -v     File path to video
   --rating, -x    Video rating score
@@ -144,6 +146,7 @@ Supported options:
 - **clientId** `string` - Optional. Google API OAuth Client ID
 - **clientSecret** `string` - Optional. Google API OAuth Client Secret
 - **tokens** `object` - Optional. Google API OAuth Client Tokens. Object must contains the following keys: `access_token` and `refresh_token`
+- **useAccount** - In case of multiple associated Google accounts, define the email of the desired account to use
 
 #### youtube#upload(video [, callback ])
 Alias: `insert`

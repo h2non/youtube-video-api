@@ -32,7 +32,9 @@ suite('Youtube videos', function () {
 
   test('authenticate', function (done) {
     client = youtube({ email: EMAIL, password: PASSWORD })
-    client.authenticate(CLIENT_ID, CLIENT_SECRET, done)
+    client.authenticate(CLIENT_ID, CLIENT_SECRET, function (err) {
+      done(err)
+    })
   })
 
   test('upload', function (done) {
