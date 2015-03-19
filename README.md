@@ -36,7 +36,7 @@ Only `access_token` and `refresh_token` fields are mandatory.
 ## Command-line interface
 
 ```bash
-youtube-video --help
+youtube-video-api --help
 ```
 
 ```bash
@@ -83,8 +83,6 @@ Examples:
 ```
 
 ## API
-
-### Usage
 
 ```js
 var Youtube = require('youtube-video-api')
