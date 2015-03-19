@@ -109,6 +109,10 @@ var params = {
   clientSecret: argv.secret
 }
 
+if (argv.account) {
+  params.useAccount = argv.account
+}
+
 if (argv.token) {
   params.tokens = {
     access_token: argv.token
