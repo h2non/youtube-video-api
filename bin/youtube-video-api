@@ -119,6 +119,7 @@ if (argv.token) {
   }
   if (argv.refresh) {
     params.tokens.refresh_token = argv.refresh
+    params.tokens.expiry_date = (3600 * 24 * 30) * 1000
   }
 }
 
