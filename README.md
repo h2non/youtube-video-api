@@ -4,7 +4,7 @@ Straightforward **node.js/io.js programmatic and command-line interface to** eas
 
 It was designed to provide a reliable server-to-server automation solution, with additional support for transparent Google API OAuth2 token negotiation retrieval using [PhantomJS](http://phantomjs.org) in case that you don't have a valid OAuth2 token or simply you want to use a fresh token every time automatically
 
-**Rationale note**: I created this package to solve my personal frustration after using further solutions to interact properly and efficiently with Youtube Videos API. I wish it can remove your frustration as well
+**Rationale note**: I created this package to solve my personal frustration after using further solutions to interact with Youtube Videos API in a realiable way. I wish it can dissipate your frustration as well
 
 ## Installation
 
