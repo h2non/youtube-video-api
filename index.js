@@ -14,6 +14,11 @@ var OAuth2Client = google.auth.OAuth2
 var REDIRECT_URL = 'http://localhost:8488'
 var CREDENTIALS_FILENAME = '.google-oauth2-credentials.json'
 
+var SCOPE = [
+  'https://www.googleapis.com/auth/youtube',
+  'https://www.googleapis.com/auth/youtube.upload'
+].join(' ')
+
 exports = module.exports = function (opts) {
   return new YoutubeVideo(opts)
 }
@@ -85,10 +90,7 @@ YoutubeVideo.prototype.authenticate = function (clientId, clientSecret, tokens, 
   clientId = typeof clientId === 'string' ? clientId : this.opts.clientId
   clientSecret = typeof clientSecret === 'string' ? clientSecret : this.opts.clientSecret
   tokens = typeof tokens === 'object' ? tokens : this.opts.tokens
-
-  cb = args.filter(function (arg) {
-    return typeof arg === 'function'
-  }).shift()
+  cb = args.filter(function (arg) { return typeof arg === 'function' }).shift()
 
   if (!clientId || !clientSecret) {
     throw new TypeError('Missing required params: clientId, clientSecret')
@@ -111,18 +113,13 @@ function oauthLazyHandshake(tokens, cb) {
 }
 
 function getAccessToken(callback) {
-  var scope = [
-    'https://www.googleapis.com/auth/youtube',
-    'https://www.googleapis.com/auth/youtube.upload'
-  ].join(' ')
-
   var params = {
     email: this.email || process.env.GOOGLE_LOGIN_EMAIL,
     password: this.password || process.env.GOOGLE_LOGIN_PASSWORD,
     clientId: this.oauth.clientId_,
     clientSecret: this.oauth.clientSecret_,
-    scope: scope,
-    useAccount: this.opts.useAccount
+    useAccount: this.opts.useAccount,
+    scope: SCOPE
   }
 
   new Nightmare()
