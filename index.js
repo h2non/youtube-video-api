@@ -54,7 +54,7 @@ YoutubeVideo.prototype.delete = function (id, callback) {
 }
 
 YoutubeVideo.prototype.list = function (params, callback) {
-  var options = merge({}, { part: 'status,snippet', chart: 'mostPopular' }, this.opts.video, params)
+  var options = merge({}, { part: 'status,snippet' }, this.opts.video, params)
   return this._command('list', options, callback)
 }
 
