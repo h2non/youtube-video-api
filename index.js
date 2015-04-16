@@ -114,8 +114,8 @@ function oauthLazyHandshake(tokens, cb) {
 
 function getAccessToken(callback) {
   var params = {
-    email: this.email || process.env.GOOGLE_LOGIN_EMAIL,
-    password: this.password || process.env.GOOGLE_LOGIN_PASSWORD,
+    email: this.opts.email || process.env.GOOGLE_LOGIN_EMAIL,
+    password: this.opts.password || process.env.GOOGLE_LOGIN_PASSWORD,
     clientId: this.oauth.clientId_,
     clientSecret: this.oauth.clientSecret_,
     useAccount: this.opts.useAccount,
