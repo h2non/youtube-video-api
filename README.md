@@ -147,18 +147,6 @@ Supported options:
 - **tokens** `object` - Optional. Google API OAuth Client Tokens. Object must contains the following keys: `access_token` and `refresh_token`
 - **useAccount** - In case of multiple associated Google accounts, define the email of the desired account to use
 
-#### youtube#upload(video [, callback ])
-Alias: `insert`
-
-Upload a new video with custom metadata. `video` argument me be the path to the video file
-
-You can see all the allowed params [here](https://developers.google.com/youtube/v3/docs/videos/insert)
-
-#### youtube#delete(id [, callback ])
-Alias: `remove`
-
-Delete a video, passing its ID. See endpoint [documentation](https://developers.google.com/youtube/v3/docs/videos/delete)
-
 #### youtube#authenticate([ clientId, clientSecret [, tokens ] ], cb)
 Alias: `auth`
 
@@ -176,6 +164,18 @@ youtube.auth(function (err, tokens) {
   console.log('Auth tokens:', tokens)
 })
 ```
+
+#### youtube#upload(video, params [, callback ])
+Alias: `insert`
+
+Upload a new video with custom metadata. `video` argument must be the path to the video file.
+
+You can see all the allowed params [here](https://developers.google.com/youtube/v3/docs/videos/insert)
+
+#### youtube#delete(id [, callback ])
+Alias: `remove`
+
+Delete a video, passing its ID. See endpoint [documentation](https://developers.google.com/youtube/v3/docs/videos/delete)
 
 #### youtube#list(options, callback)
 
