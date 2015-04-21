@@ -133,12 +133,13 @@ function getAccessToken(callback) {
 
 function setCredentials(cb) {
   var self = this
+
   return function (err, tokens) {
     self.oauth.setCredentials(tokens)
     self._authenticated = true
 
     if (self.opts.saveTokens) {
-      saveTokens(tokens, this.opts.file)
+      saveTokens(tokens, self.opts.file)
     }
 
     cb(null, tokens)
