@@ -101,8 +101,10 @@ YoutubeVideo.prototype.authenticate = function (clientId, clientSecret, tokens, 
 }
 
 function oauthLazyHandshake(tokens, cb) {
-  if (!tokens && fs.existsSync(CREDENTIALS_FILENAME)) {
-    tokens = JSON.parse(fs.readFileSync(CREDENTIALS_FILENAME))
+  var file = this.opts.file || CREDENTIALS_FILENAME
+  
+  if (!tokens && fs.existsSync(file)) {
+    tokens = JSON.parse(fs.readFileSync(file))
   }
 
   if (tokens && tokens.access_token) {
