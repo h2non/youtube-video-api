@@ -138,15 +138,15 @@ function setCredentials(cb) {
     self._authenticated = true
 
     if (self.opts.saveTokens) {
-      saveTokens(tokens)
+      saveTokens(tokens, this.opts.file)
     }
 
     cb(null, tokens)
   }
 }
 
-function saveTokens(tokens) {
-  var filePath = path.join(process.cwd(), CREDENTIALS_FILENAME)
+function saveTokens(tokens, file) {
+  var filePath = path.join(process.cwd(), file || CREDENTIALS_FILENAME)
 
   fs.writeFileSync(
     filePath,
