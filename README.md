@@ -146,6 +146,7 @@ Supported options:
 - **clientSecret** `string` - Optional. Google API OAuth Client Secret
 - **tokens** `object` - Optional. Google API OAuth Client Tokens. Object must contains the following keys: `access_token` and `refresh_token`
 - **useAccount** - In case of multiple associated Google accounts, define the email of the desired account to use
+- **file** - Credentials JSON file path. Default to `.google-oauth2-credentials.json`
 
 #### youtube#authenticate([ clientId, clientSecret [, tokens ] ], cb)
 Alias: `auth`
