@@ -91,6 +91,11 @@ var argv = require('yargs')
       describe: 'Return the previous page token results for list command',
       type: 'boolean'
     },
+    credentials: {
+      alias: 'w',
+      describe: 'custom path to JSON file with token credentials',
+      type: 'string'
+    },
     debug: {
       alias: 'd',
       default: false,
@@ -113,7 +118,10 @@ if (argv.account) {
   params.useAccount = argv.account
 }
 
-if (argv.token) {
+if (argv.credentials) {
+  params.tokens = JSON.parse(fs.readFileSync(argv.credentials))
+}
+else if (argv.token) {
   params.tokens = {
     access_token: argv.token
   }
