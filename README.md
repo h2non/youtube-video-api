@@ -76,6 +76,7 @@ Options:
   --rating, -x    Video rating score
   --next, -n      Return the next page token results for list command
   --prev, -p      Return the previous page token results for list command
+  --credentials, -w  custom path to JSON file with token credentials
   --debug, -d     Enable debug mode [default: false]
 
 Examples:
