@@ -80,11 +80,11 @@ Options:
   --debug, -d     Enable debug mode [default: false]
 
 Examples:
-  youtube-video-api upload -c clientId -k clientSecret -f config.json -v video.mp4
-  youtube-video-api remove -c clientId -k clientSecret -i 23XsFi23LKD
-  youtube-video-api update -c clientId -k clientSecret -c config.json
-  youtube-video-api rate -c clientId -k clientSecret -i 23XsFi23LKD -v 5
-  youtube-video-api list -c clientId -k clientSecret --next
+  youtube-video-api upload -c clientId -s clientSecret -f config.json -v video.mp4
+  youtube-video-api remove -c clientId -s clientSecret -i 23XsFi23LKD
+  youtube-video-api update -c clientId -s clientSecret -c config.json
+  youtube-video-api rate -c clientId -s clientSecret -i 23XsFi23LKD -v 5
+  youtube-video-api list -c clientId -s clientSecret --next
 ```
 
 ## API
