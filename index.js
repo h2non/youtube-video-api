@@ -121,7 +121,7 @@ function getAccessToken(callback) {
     clientId: this.oauth.clientId_,
     clientSecret: this.oauth.clientSecret_,
     useAccount: this.opts.useAccount,
-    scope: SCOPE
+    scope: this.opts.scope || SCOPE
   }
 
   new Nightmare()
