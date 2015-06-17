@@ -86,10 +86,11 @@ YoutubeVideo.prototype.auth =
 YoutubeVideo.prototype.authenticate = function (clientId, clientSecret, tokens, cb) {
   if (this._authenticated) { return }
 
-  var args = Array.prototype.slice.call(arguments)
+  // Fetch variadic arguments
+  var args = [].call(arguments)
   clientId = typeof clientId === 'string' ? clientId : this.opts.clientId
   clientSecret = typeof clientSecret === 'string' ? clientSecret : this.opts.clientSecret
-  tokens = typeof tokens === 'object' ? tokens : this.opts.tokens
+  tokens = tokens && typeof tokens === 'object' ? tokens : this.opts.tokens
   cb = args.filter(function (arg) { return typeof arg === 'function' }).shift()
 
   if (!clientId || !clientSecret) {
@@ -102,16 +103,17 @@ YoutubeVideo.prototype.authenticate = function (clientId, clientSecret, tokens, 
 
 function oauthLazyHandshake(tokens, cb) {
   var file = this.opts.file || CREDENTIALS_FILENAME
-  
+  var fetchCredentials = setCredentials.call(this, cb)
+
   if (!tokens && fs.existsSync(file)) {
     tokens = JSON.parse(fs.readFileSync(file))
   }
 
   if (tokens && tokens.access_token) {
-    return setCredentials.call(this, cb)(null, tokens)
+    return fetchCredentials(null, tokens)
   }
 
-  getAccessToken.call(this, setCredentials.call(this, cb))
+  getAccessToken.call(this, fetchCredentials)
 }
 
 function getAccessToken(callback) {
@@ -135,6 +137,10 @@ function setCredentials(cb) {
   var self = this
 
   return function (err, tokens) {
+    if (err || !tokens) {
+      return cb(err || new Error('Cannot retrieve OAuth2 tokens'))
+    }
+
     self.oauth.setCredentials(tokens)
     self._authenticated = true
 
@@ -155,6 +161,6 @@ function saveTokens(tokens, file) {
   )
 }
 
-function missingAuthentication(callback) {
-  callback(new Error('Authentication is required to do this operation'))
+function missingAuthentication(cb) {
+  cb(new Error('Authentication is required to do this operation'))
 }
