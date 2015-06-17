@@ -87,7 +87,7 @@ YoutubeVideo.prototype.authenticate = function (clientId, clientSecret, tokens, 
   if (this._authenticated) { return }
 
   // Fetch variadic arguments
-  var args = [].call(arguments)
+  var args = [].slice.call(arguments)
   clientId = typeof clientId === 'string' ? clientId : this.opts.clientId
   clientSecret = typeof clientSecret === 'string' ? clientSecret : this.opts.clientSecret
   tokens = tokens && typeof tokens === 'object' ? tokens : this.opts.tokens
