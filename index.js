@@ -87,11 +87,10 @@ YoutubeVideo.prototype.authenticate = function (clientId, clientSecret, tokens, 
   if (this._authenticated) { return }
 
   // Fetch variadic arguments
-  var args = [].slice.call(arguments)
   clientId = typeof clientId === 'string' ? clientId : this.opts.clientId
   clientSecret = typeof clientSecret === 'string' ? clientSecret : this.opts.clientSecret
   tokens = tokens && typeof tokens === 'object' ? tokens : this.opts.tokens
-  cb = args.filter(function (arg) { return typeof arg === 'function' }).shift()
+  cb = [].slice.call(arguments).filter(function (arg) { return typeof arg === 'function' }).shift()
 
   if (!clientId || !clientSecret) {
     throw new TypeError('Missing required params: clientId, clientSecret')
