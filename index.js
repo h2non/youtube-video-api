@@ -34,9 +34,9 @@ function YoutubeVideo (opts) {
 
 YoutubeVideo.prototype.insert =
 YoutubeVideo.prototype.upload = function (path, params, callback) {
-  var video = fs.createReadStream(path)
+  const video = fs.createReadStream(path)
 
-  var options = merge({}, this.opts.video, {
+  const options = merge({}, this.opts.video, {
     autoLevels: true,
     part: 'status,snippet',
     mediaType: mime.lookup(path)
@@ -54,12 +54,12 @@ YoutubeVideo.prototype.delete = function (id, callback) {
 }
 
 YoutubeVideo.prototype.list = function (params, callback) {
-  var options = merge({}, { part: 'status,snippet' }, this.opts.video, params)
+  const options = merge({}, { part: 'status,snippet' }, this.opts.video, params)
   return this._command('list', options, callback)
 }
 
 YoutubeVideo.prototype.update = function (params, callback) {
-  var options = merge({}, { part: 'status,snippet' }, this.opts.video, params)
+  const options = merge({}, { part: 'status,snippet' }, this.opts.video, params)
   return this._command('update', options, callback)
 }
 
@@ -72,25 +72,25 @@ YoutubeVideo.prototype.rate = function (id, rating, callback) {
 }
 
 YoutubeVideo.prototype.thumbnails = function (id, media, callback) {
-  var params = merge({ auth: this.oauth }, { videoId: id, media: media })
+  const params = merge({ auth: this.oauth }, { videoId: id, media: media })
   return youtube.thumbnails.set(params, callback)
 }
 
 YoutubeVideo.prototype._command = function (action, params, callback) {
   if (!this._authenticated) return missingAuthentication(callback)
-  var options = merge({ auth: this.oauth }, params)
+  const options = merge({ auth: this.oauth }, params)
   return youtube.videos[action](options, callback)
 }
 
 YoutubeVideo.prototype.auth =
 YoutubeVideo.prototype.authenticate = function (clientId, clientSecret, tokens, cb) {
-  if (this._authenticated) { return }
+  cb = [].slice.call(arguments).filter(function (arg) { return typeof arg === 'function' }).shift() || noop
+  if (this._authenticated) return cb(null, self.tokens)
 
   // Fetch variadic arguments
   clientId = typeof clientId === 'string' ? clientId : this.opts.clientId
   clientSecret = typeof clientSecret === 'string' ? clientSecret : this.opts.clientSecret
   tokens = tokens && typeof tokens === 'object' ? tokens : this.opts.tokens
-  cb = [].slice.call(arguments).filter(function (arg) { return typeof arg === 'function' }).shift()
 
   if (!clientId || !clientSecret) {
     throw new TypeError('Missing required params: clientId, clientSecret')
@@ -101,8 +101,8 @@ YoutubeVideo.prototype.authenticate = function (clientId, clientSecret, tokens, 
 }
 
 function oauthLazyHandshake (tokens, cb) {
-  var file = this.opts.file || CREDENTIALS_FILENAME
-  var fetchCredentials = setCredentials.call(this, cb)
+  const file = this.opts.file || CREDENTIALS_FILENAME
+  const fetchCredentials = setCredentials.call(this, cb)
 
   if (!tokens && fs.existsSync(file)) {
     tokens = JSON.parse(fs.readFileSync(file))
@@ -116,7 +116,7 @@ function oauthLazyHandshake (tokens, cb) {
 }
 
 function getAccessToken (callback) {
-  var params = {
+  const params = {
     email: this.opts.email || process.env.GOOGLE_LOGIN_EMAIL,
     password: this.opts.password || process.env.GOOGLE_LOGIN_PASSWORD,
     clientId: this.oauth.clientId_,
@@ -134,6 +134,7 @@ function getAccessToken (callback) {
 
 function setCredentials (cb) {
   const self = this
+
   return function (err, tokens) {
     if (err || !tokens) {
       return cb(err || new Error('Cannot retrieve OAuth2 tokens'))
@@ -146,6 +147,7 @@ function setCredentials (cb) {
       saveTokens(tokens, self.opts.file)
     }
 
+    self.tokens = tokens
     cb(null, tokens)
   }
 }
@@ -166,3 +168,5 @@ function saveTokens (tokens, file) {
 function missingAuthentication (cb) {
   cb(new Error('Authentication is required to do this operation'))
 }
+
+function noop () {}
