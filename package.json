@@ -1,7 +1,7 @@
 {
   "name": "youtube-video-api",
   "description": "Straightforward programmatic and command-line interface for YouTube Videos using Google API v3",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "repository": "h2non/youtube-video-api",
   "license": "MIT",
   "author": "Tomas Aparicio",
