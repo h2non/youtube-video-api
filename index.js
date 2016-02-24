@@ -1,20 +1,20 @@
-var fs = require('fs')
-var path = require('path')
-var mime = require('mime')
-var merge = require('merge')
-var parseUrl = require('url').parse
-var google = require('googleapis')
-var Nightmare = require('nightmare')
-var NightmareGoogle = require('nightmare-google-oauth2')
-var version = require('./package.json').version
+const fs = require('fs')
+const path = require('path')
+const mime = require('mime')
+const merge = require('merge')
+const parseUrl = require('url').parse
+const google = require('googleapis')
+const Nightmare = require('nightmare')
+const NightmareGoogle = require('nightmare-google-oauth2')
+const version = require('./package.json').version
 
-var youtube = google.youtube('v3')
-var OAuth2Client = google.auth.OAuth2
+const youtube = google.youtube('v3')
+const OAuth2Client = google.auth.OAuth2
 
-var REDIRECT_URL = 'http://localhost:8488'
-var CREDENTIALS_FILENAME = '.google-oauth2-credentials.json'
+const REDIRECT_URL = 'http://localhost:8488'
+const CREDENTIALS_FILENAME = '.google-oauth2-credentials.json'
 
-var SCOPE = [
+const SCOPE = [
   'https://www.googleapis.com/auth/youtube',
   'https://www.googleapis.com/auth/youtube.upload'
 ].join(' ')
@@ -27,7 +27,7 @@ exports.google = google
 exports.youtube = youtube
 exports.VERSION = version
 
-function YoutubeVideo(opts) {
+function YoutubeVideo (opts) {
   this._authenticated = false
   this.opts = merge({ saveTokens: true }, opts)
 }
@@ -100,7 +100,7 @@ YoutubeVideo.prototype.authenticate = function (clientId, clientSecret, tokens, 
   oauthLazyHandshake.call(this, tokens, cb)
 }
 
-function oauthLazyHandshake(tokens, cb) {
+function oauthLazyHandshake (tokens, cb) {
   var file = this.opts.file || CREDENTIALS_FILENAME
   var fetchCredentials = setCredentials.call(this, cb)
 
@@ -115,7 +115,7 @@ function oauthLazyHandshake(tokens, cb) {
   getAccessToken.call(this, fetchCredentials)
 }
 
-function getAccessToken(callback) {
+function getAccessToken (callback) {
   var params = {
     email: this.opts.email || process.env.GOOGLE_LOGIN_EMAIL,
     password: this.opts.password || process.env.GOOGLE_LOGIN_PASSWORD,
@@ -132,9 +132,8 @@ function getAccessToken(callback) {
     })
 }
 
-function setCredentials(cb) {
-  var self = this
-
+function setCredentials (cb) {
+  const self = this
   return function (err, tokens) {
     if (err || !tokens) {
       return cb(err || new Error('Cannot retrieve OAuth2 tokens'))
@@ -151,8 +150,10 @@ function setCredentials(cb) {
   }
 }
 
-function saveTokens(tokens, file) {
-  var filePath = path.join(process.cwd(), file || CREDENTIALS_FILENAME)
+function saveTokens (tokens, file) {
+  const filePath = path.indexOf(0) !== '/'
+    ? path.join(process.cwd(), file || CREDENTIALS_FILENAME)
+    : path || file || CREDENTIALS_FILENAME
 
   fs.writeFileSync(
     filePath,
@@ -160,6 +161,6 @@ function saveTokens(tokens, file) {
   )
 }
 
-function missingAuthentication(cb) {
+function missingAuthentication (cb) {
   cb(new Error('Authentication is required to do this operation'))
 }
