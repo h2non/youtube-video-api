@@ -151,9 +151,11 @@ function setCredentials (cb) {
 }
 
 function saveTokens (tokens, file) {
-  const filePath = path.indexOf(0) !== '/'
-    ? path.join(process.cwd(), file || CREDENTIALS_FILENAME)
-    : path || file || CREDENTIALS_FILENAME
+  file = file || CREDENTIALS_FILENAME
+
+  const filePath = file.indexOf(0) !== '/'
+    ? path.join(process.cwd(), file)
+    : file
 
   fs.writeFileSync(
     filePath,
