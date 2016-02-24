@@ -2,7 +2,7 @@
 
 Straightforward **node.js/io.js programmatic and command-line interface to** easily **upload, list, update, rate, thumbnail and delete videos** from **YouTube** using [OAuth2](https://developers.google.com/accounts/docs/OAuth2) and [Google API v3](https://developers.google.com/youtube/v3/docs/videos)
 
-It was designed to provide a reliable server-to-server automation solution, with additional support for transparent Google API OAuth2 token negotiation retrieval using [PhantomJS](http://phantomjs.org) in case that you don't have a valid OAuth2 token or simply you want to use a fresh token every time automatically
+It was designed to provide a reliable server-to-server automation solution, with additional support for transparent Google API OAuth2 token negotiation retrieval using [Nightmare](http://nightmarejs.org) + [Electron](https://github.com/atom/electron) in case that you don't have a valid OAuth2 token or simply you want to use a fresh token every time automatically
 
 **Rationale note**: I created this package to solve my personal frustration after using further solutions to interact with Youtube Videos API in a realiable way. I wish it can dissipate your frustration as well
 
