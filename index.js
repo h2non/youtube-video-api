@@ -153,7 +153,7 @@ function setCredentials (cb) {
 function saveTokens (tokens, file) {
   file = file || CREDENTIALS_FILENAME
 
-  const filePath = file.indexOf('/') === 0
+  const filePath = file.indexOf('/') !== 0
     ? path.join(process.cwd(), file)
     : file
 
