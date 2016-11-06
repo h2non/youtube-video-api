@@ -119,6 +119,8 @@ youtube.authenticate('my-client-id', 'my-client-secret', function (err, tokens) 
 
 function uploadVideo() {
   youtube.upload('path/to/video.mp4', params, function (err, video) {
+    // 'path/to/video.mp4' can be replaced with readable stream. 
+    // When passing stream adding mediaType to params is advised.
     if (err) {
       return console.error('Cannot upload video:', err)
     }
@@ -171,8 +173,7 @@ youtube.auth(function (err, tokens) {
 #### youtube#upload(video, params [, callback ])
 Alias: `insert`
 
-Upload a new video with custom metadata. `video` argument must be the path to the video file.
-
+Upload a new video with custom metadata. `video` argument can be the path to the video file or a readable stream of the video. When passing stream adding mediaType to params is advised.  
 You can see all the allowed params [here](https://developers.google.com/youtube/v3/docs/videos/insert)
 
 #### youtube#delete(id [, callback ])
