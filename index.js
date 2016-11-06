@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const mime = require('mime')
 const merge = require('merge')
+const stream = require('stream')
 const parseUrl = require('url').parse
 const google = require('googleapis')
 const Nightmare = require('nightmare')
@@ -33,16 +34,21 @@ function YoutubeVideo (opts) {
 }
 
 YoutubeVideo.prototype.insert =
-YoutubeVideo.prototype.upload = function (path, params, callback) {
-  const video = fs.createReadStream(path)
-
+YoutubeVideo.prototype.upload = function (pathOrStream, params, callback) {
+  var videoStream, mimeType;
+  if (pathOrStream instanceof stream.Readable) {
+    videoStream = pathOrStream  //pass mediaType in params
+  } else {
+    videoStream = fs.createReadStream(pathOrStream)
+    mimeType = mime.lookup(path)
+  }
   const options = merge({}, this.opts.video, {
     autoLevels: true,
     part: 'status,snippet',
-    mediaType: mime.lookup(path)
+    mediaType: mimeType
   }, params)
 
-  options.media = { body: video }
+  options.media = { body: videoStream }
   options.auth = this.oauth
 
   return this._command('insert', options, callback)
