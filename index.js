@@ -40,7 +40,7 @@ YoutubeVideo.prototype.upload = function (pathOrStream, params, callback) {
     videoStream = pathOrStream  //pass mediaType in params
   } else {
     videoStream = fs.createReadStream(pathOrStream)
-    mimeType = mime.lookup(path)
+    mimeType = mime.lookup(pathOrStream)
   }
   const options = merge({}, this.opts.video, {
     autoLevels: true,
